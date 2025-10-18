@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 from operator import itemgetter
 
 csv_file = [argv for argv in sys.argv if argv.endswith(".csv")]
