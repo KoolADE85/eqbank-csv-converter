@@ -10,18 +10,24 @@ This test script:
 5. Checks that 1-2 random transaction lines from the CSV appear in the OFX file
 """
 
+import csv
 import os
 import random
 import shutil
 import subprocess
-import csv
+import sys
 from pathlib import Path
 
 import pytest
 
+# Add src to path so we can import convert module
+PROJECT_ROOT = Path(__file__).parent.parent
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
+
+from eqdownload.convert import convert_csv_to_ofx  # noqa: E402
+
 
 # Get the project root directory
-PROJECT_ROOT = Path(__file__).parent.parent
 TESTS_DATA_DIR = PROJECT_ROOT / "tests" / "data"
 TESTS_RUNS_DIR = PROJECT_ROOT / "tests" / "runs"
 EQ_SCRIPT = PROJECT_ROOT / "src" / "eqdownload" / "eq.py"
@@ -99,17 +105,19 @@ def test_convert_csv_to_ofx(csv_file):
     # Define output OFX file path
     output_ofx = dest_csv.with_suffix(".ofx")
 
-    # Run csv2ofx conversion
-    cmd = ["csv2ofx", "-x", str(EQ_SCRIPT), str(dest_csv), str(output_ofx)]
-
-    result = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
+    # Run csv2ofx conversion directly (not via subprocess)
+    try:
+        convert_csv_to_ofx(str(dest_csv), str(output_ofx), str(EQ_SCRIPT))
+        conversion_successful = True
+    except SystemExit as e:
+        conversion_successful = e.code == 0
+        if not conversion_successful:
+            pytest.fail(
+                f"csv2ofx conversion failed for {csv_file.name} with exit code: {e.code}"
+            )
 
     # Check that conversion was successful
-    assert result.returncode == 0, (
-        f"csv2ofx conversion failed for {csv_file.name}\n"
-        f"STDOUT: {result.stdout}\n"
-        f"STDERR: {result.stderr}"
-    )
+    assert conversion_successful, f"csv2ofx conversion failed for {csv_file.name}"
 
     # Check that OFX file was created
     assert output_ofx.exists(), f"OFX file was not created: {output_ofx}"

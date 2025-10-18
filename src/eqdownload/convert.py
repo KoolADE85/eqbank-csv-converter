@@ -3,9 +3,10 @@ import argparse
 import glob
 import os
 import re
-import subprocess
 import sys
 from pathlib import Path
+
+from csv2ofx.main import run as csv2ofx_run
 
 
 def get_default_downloads_dir():
@@ -63,6 +64,36 @@ def find_csv_files(search_dir=None):
     return matching_files
 
 
+def convert_csv_to_ofx(csv_file, output_file, eq_script):
+    """
+    Convert a single CSV file to OFX format using csv2ofx library directly.
+
+    Args:
+        csv_file: Path to the input CSV file
+        output_file: Path to the output OFX file
+        eq_script: Path to the EQ Bank mapping script
+
+    Raises:
+        SystemExit: If conversion fails
+    """
+    # Save the original sys.argv
+    original_argv = sys.argv.copy()
+
+    try:
+        # Set sys.argv to mimic command-line invocation
+        # This is needed because eq.py reads from sys.argv to extract the account number
+        sys.argv = ["csv2ofx", "-x", eq_script, csv_file, output_file]
+
+        # Build arguments for csv2ofx (without the program name)
+        args = ["-x", eq_script, csv_file, output_file]
+
+        # Call csv2ofx_run directly - it will call sys.exit on error
+        csv2ofx_run(args)
+    finally:
+        # Always restore original sys.argv
+        sys.argv = original_argv
+
+
 def convert_csv_files(files, keep_csv=False):
     """Convert each CSV file to OFX format using csv2ofx."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -72,7 +103,7 @@ def convert_csv_files(files, keep_csv=False):
     failed_conversions = []
 
     for csv_file in files:
-        # Create output filename by replacing .csv with .qif
+        # Create output filename by replacing .csv with .ofx
         base_name = os.path.splitext(csv_file)[0]
         output_file = f"{base_name}.ofx"
 
@@ -81,15 +112,18 @@ def convert_csv_files(files, keep_csv=False):
         )
 
         try:
-            cmd = ["csv2ofx", "-x", eq_script, csv_file, output_file]
-            subprocess.run(cmd, check=True, capture_output=True, text=True)
+            convert_csv_to_ofx(csv_file, output_file, eq_script)
             print("  Success!")
             successful_conversions.append(csv_file)
-        except subprocess.CalledProcessError as e:
-            print(f"  Error converting {csv_file}: {e}")
-            print(f"  STDOUT: {e.stdout}")
-            print(f"  STDERR: {e.stderr}")
-            failed_conversions.append(csv_file)
+        except SystemExit as e:
+            # csv2ofx_run calls sys.exit() on errors
+            if e.code != 0:
+                print(f"  Error converting {csv_file}: {e.code}")
+                failed_conversions.append(csv_file)
+            else:
+                # Exit code 0 means success
+                print("  Success!")
+                successful_conversions.append(csv_file)
         except Exception as e:
             print(f"  Unexpected error: {e}")
             failed_conversions.append(csv_file)
