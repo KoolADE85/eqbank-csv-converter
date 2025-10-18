@@ -1,0 +1,27 @@
+Transfer date,Description,Amount,Balance
+2025-01-15,Transfer from  111222333  to  999888777,$10000.99,$50000.50
+2025-01-15,E-Transfer from John O'Brien (john@email.com),$250.00,$40000.51
+2025-01-14,Transfer from  999888777  to  444555666,-$5000.00,$39750.51
+2025-01-14,"Bill Payment: ""Company Name, Inc.""",-$1234.56,$44750.51
+2025-01-13,Interac e-Transfer: Café Montréal,$75.25,$45985.07
+2025-01-13,Transfer with ampersand symbols,$100.00,$45909.82
+2025-01-12,Payment - Special chars: @#$%^*(),-$50.50,$45809.82
+2025-01-12,Transfer from  999888777  to  000111222,-$0.01,$45860.32
+2025-01-11,Refund: "Quote marks" and 'apostrophes',$99.99,$45860.33
+2025-01-11,Transfer with multiple    spaces between words,$25.00,$45760.34
+2025-01-10,Description with semicolons; inside; text,$500.00,$45735.34
+2025-01-10,Transfer from  999888777  to  123456789,-$10000.00,$45235.34
+2025-01-09,Very long description that goes on and on and on and includes many words to test how the system handles extremely long transaction descriptions that might wrap or cause issues,$1.00,$55235.34
+2025-01-09,Transfer from  999888777  to  987654321,-$0.99,$55234.34
+2025-01-08,Français: Café Résumé Élève,$200.50,$55235.33
+2025-01-08,Transfer from  999888777  to  111000111,-$9999.99,$55034.83
+2025-01-07,Transfer from  222333444  to  999888777,$15000.00,$65034.82
+2025-01-07,E-Transfer: (Brackets) [Square] {Curly},$33.33,$50034.82
+2025-01-06,Transfer from  999888777  to  555666777,-$25000.50,$50001.49
+2025-01-06,REVERSED: Previous transaction,$25000.50,$75001.99
+2025-01-05,Transfer with numbers: 123-456-7890,$88.88,$50001.49
+2025-01-05,Transfer from  999888777  to  888999000,-$1.11,$49912.61
+2025-01-04,Transfer from  666777888  to  999888777,$100000.00,$49913.72
+2025-01-03,Transfer from  999888777  to  333222111,-$99999.99,$-50086.28
+2025-01-02,Overdraft fee,-$45.00,$49913.71
+2025-01-01,Opening balance: New Year 2025,$49958.71,$49958.71

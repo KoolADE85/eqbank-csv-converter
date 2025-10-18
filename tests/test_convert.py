@@ -170,7 +170,7 @@ def test_convert_script_with_keep_flag():
         copied_files.append(dest_csv)
 
     # Run convert command with --keep and --dir flags
-    cmd = ["convert", "--keep", "--dir", str(TESTS_RUNS_DIR)]
+    cmd = ["uv", "run", "convert", "--keep", "--dir", str(TESTS_RUNS_DIR)]
 
     result = subprocess.run(cmd, capture_output=True, text=True, cwd=PROJECT_ROOT)
 

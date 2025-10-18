@@ -19,27 +19,18 @@ packages = ["src/eqdownload"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
 addopts = [
-    "-v",
     "--tb=short",
     "--strict-markers",
 ]
-minversion = "8.0"
 
 [tool.ruff]
 src = ["src", "tests"]
 
 [tool.basedpyright]
 include = ["src", "tests"]
-exclude = [
-    "**/__pycache__",
-    ".venv",
-]
+exclude = [".venv"]
 typeCheckingMode = "standard"
-reportMissingImports = true
 reportMissingTypeStubs = false
 pythonVersion = "3.9"
 
