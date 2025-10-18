@@ -8,7 +8,7 @@ dependencies = [
 ]
 
 [project.scripts]
-convert = "eqdownload.convert:main"
+eqconvert = "eqdownload.convert:main"
 
 [build-system]
 requires = ["hatchling"]
