@@ -14,7 +14,7 @@ uv sync          # Install dependencies
 uv run pytest    # Run tests
 ```
 
-**Important:** Never run `uv run convert` without the `--dir` parameter as it defaults to the user's Downloads folder. Always use `uv run convert --dir <path>` when testing.
+**Important:** Never run `uv run eqconvert` without the `--dir` parameter as it defaults to the user's Downloads folder. Always use `uv run eqconvert --dir <path>` when testing.
 
 ## Quality Checks
 - Type checking: `uv run basedpyright` (must show 0 errors, 0 warnings)
