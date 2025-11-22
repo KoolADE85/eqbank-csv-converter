@@ -1,6 +1,6 @@
 # EQ Bank CSV to OFX Converter
 
-A Python tool to convert EQ Bank CSV transaction exports to OFX (Open Financial Exchange) format for import into financial software like Homebank or other accounting applications.
+A Python tool to convert EQ Bank .csv transaction exports to .ofx format for import into financial software.
 
 
 ## Installation
@@ -12,6 +12,7 @@ source .venv/bin/activate
 ```
 
 All commands can be run with `uv run <command>`.
+
 
 ## Usage
 

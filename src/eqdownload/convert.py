@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from csv2ofx.main import run as csv2ofx_run  # type: ignore
+from csv2ofx.main import run as csv2ofx_run  # type: ignore[import-untyped]
 
 
 def get_default_downloads_dir():

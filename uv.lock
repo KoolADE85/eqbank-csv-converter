@@ -171,7 +171,6 @@ wheels = [
 
 [[package]]
 name = "eqdownload"
-version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "csv2ofx" },

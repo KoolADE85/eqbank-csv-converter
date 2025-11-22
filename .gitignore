@@ -22,6 +22,7 @@ htmlcov/
 tests/runs/
 
 # IDEs
+.zed
 .vscode/
 .idea/
 *.swp
