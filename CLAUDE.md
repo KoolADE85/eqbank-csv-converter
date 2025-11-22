@@ -1,7 +1,7 @@
 # eqdownload Project Context
 
 ## Purpose
-Convert EQ Bank CSV transaction files to OFX format using csv2ofx.
+Convert CSV transaction downloads (from EQ Bank) to OFX format using csv2ofx.
 
 ## Structure
 - `src/eqdownload/convert.py` - CLI entry point

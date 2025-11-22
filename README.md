@@ -15,7 +15,7 @@ All commands can be run with `uv run <command>`.
 
 ## Usage
 
-The converter looks for CSV files matching the pattern `[account_number] Details.csv` (e.g., `123493788 Details.csv`).
+The converter looks for CSV files matching the pattern `[account_number] Details.csv` (e.g., `123456789 Details.csv`).
 
 Convert files in your Downloads folder:
 ```bash

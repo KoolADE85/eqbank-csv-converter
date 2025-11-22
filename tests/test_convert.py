@@ -26,7 +26,6 @@ sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 from eqdownload.convert import convert_csv_to_ofx  # noqa: E402
 
-
 # Get the project root directory
 TESTS_DATA_DIR = PROJECT_ROOT / "tests" / "data"
 TESTS_RUNS_DIR = PROJECT_ROOT / "tests" / "runs"
@@ -56,13 +55,13 @@ def get_csv_files():
     return list(TESTS_DATA_DIR.glob("*.csv"))
 
 
-def extract_account_number(csv_filename):
+def extract_account_number(csv_filename: str) -> str:
     """Extract account number from CSV filename (format: '123456789 Details.csv')."""
     basename = os.path.basename(csv_filename)
     return basename.split()[0]
 
 
-def parse_csv_transactions(csv_file):
+def parse_csv_transactions(csv_file: Path) -> list[dict[str, str]]:
     """Parse CSV file and return list of transaction dictionaries."""
     with open(csv_file, "r", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -76,7 +75,7 @@ def test_csv_files_exist():
 
 
 @pytest.mark.parametrize("csv_file", get_csv_files(), ids=lambda f: f.name)
-def test_convert_csv_to_ofx(csv_file):
+def test_convert_csv_to_ofx(csv_file: Path):
     """
     Test conversion of a CSV file to OFX format.
 
@@ -171,7 +170,7 @@ def test_convert_script_with_keep_flag():
     if not csv_files:
         pytest.skip("No CSV files found in tests/data")
 
-    copied_files = []
+    copied_files: list[Path] = []
     for csv_file in csv_files:
         dest_csv = TESTS_RUNS_DIR / csv_file.name
         shutil.copy(csv_file, dest_csv)

@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from csv2ofx.main import run as csv2ofx_run
+from csv2ofx.main import run as csv2ofx_run  # type: ignore
 
 
 def get_default_downloads_dir():
@@ -38,7 +38,7 @@ def get_default_downloads_dir():
     return str(downloads) if downloads.exists() else str(home)
 
 
-def find_csv_files(search_dir=None):
+def find_csv_files(search_dir: str | None = None) -> list[str]:
     """Find CSV files that match the pattern in the specified directory or default Downloads."""
     if search_dir:
         search_path = os.path.expanduser(search_dir)
@@ -48,7 +48,7 @@ def find_csv_files(search_dir=None):
     # Pattern: numbers followed by "Details" optionally followed by number in parentheses, with .csv extension
     pattern = re.compile(r"^\d+\s*Details(\(\d+\))?.csv$")
 
-    matching_files = []
+    matching_files: list[str] = []
 
     # Get all CSV files
     csv_files = glob.glob(os.path.join(search_path, "*.csv"))
@@ -64,7 +64,7 @@ def find_csv_files(search_dir=None):
     return matching_files
 
 
-def convert_csv_to_ofx(csv_file, output_file, eq_script):
+def convert_csv_to_ofx(csv_file: str, output_file: str, eq_script: str):
     """
     Convert a single CSV file to OFX format using csv2ofx library directly.
 
@@ -94,13 +94,13 @@ def convert_csv_to_ofx(csv_file, output_file, eq_script):
         sys.argv = original_argv
 
 
-def convert_csv_files(files, keep_csv=False):
+def convert_csv_files(files: list[str], keep_csv: bool = False):
     """Convert each CSV file to OFX format using csv2ofx."""
     script_dir = os.path.dirname(os.path.abspath(__file__))
     eq_script = os.path.join(script_dir, "eq.py")
 
-    successful_conversions = []
-    failed_conversions = []
+    successful_conversions: list[str] = []
+    failed_conversions: list[str] = []
 
     for csv_file in files:
         # Create output filename by replacing .csv with .ofx

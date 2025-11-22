@@ -12,6 +12,14 @@ else:
 assert account_num.isnumeric(), "Could not detect account number from csv file name."
 
 
+def get_type(tr: dict[str, str]):
+    return "DEBIT" if tr.get("Amount", "").startswith("-") else "CREDIT"
+
+
+def get_amount(tr: dict[str, str]):
+    return tr.get("Amount")
+
+
 mapping = {
     "has_header": True,
     "bank": "EQ Bank",
@@ -22,7 +30,7 @@ mapping = {
     "date": itemgetter("Transfer date"),
     "date_fmt": "%Y-%m-%d",
     "payee": itemgetter("Description"),
-    "type": lambda tr: "DEBIT" if tr.get("Amount", "").startswith("-") else "CREDIT",
-    "amount": lambda tr: tr.get("Amount"),
+    "type": get_type,
+    "amount": get_amount,
     "balance": itemgetter("Balance"),
 }

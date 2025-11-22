@@ -2,7 +2,7 @@
 name = "eqdownload"
 version = "0.1.0"
 description = "Convert EQ Bank CSV files to OFX format"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
     "csv2ofx>=0.9.0",
 ]
@@ -35,9 +35,9 @@ src = ["src", "tests"]
 [tool.basedpyright]
 include = ["src", "tests"]
 exclude = [".venv"]
-typeCheckingMode = "standard"
+typeCheckingMode = "strict"
 reportMissingTypeStubs = false
-pythonVersion = "3.9"
+pythonVersion = "3.10"
 
 [dependency-groups]
 dev = [
