@@ -4,7 +4,6 @@ from operator import itemgetter
 
 csv_file = [argv for argv in sys.argv if argv.endswith(".csv")]
 if csv_file:
-    # Get just the filename, not the full path
     filename = os.path.basename(csv_file[0])
     account_num = filename.split(" ")[0]
 else:
