@@ -16,21 +16,16 @@ All commands can be run with `uv run <command>`.
 
 ## Usage
 
-The converter looks for CSV files matching the pattern `[account_number] Details.csv` (e.g., `123456789 Details.csv`).
+The converter looks for CSV files matching the pattern `[account_number] Details.csv` (e.g., `123456789 Details.csv`) in the specified directory.
 
 Convert files in your Downloads folder:
 ```bash
-eqconvert
+eqconvert ~/Downloads
 ```
 
 Convert files and keep the originals:
 ```bash
-eqconvert --keep
-```
-
-Convert files from a specific directory:
-```bash
-eqconvert --dir ~/Documents/bank-statements
+eqconvert ~/Downloads --keep
 ```
 
 

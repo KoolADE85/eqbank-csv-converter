@@ -4,46 +4,13 @@ import glob
 import os
 import re
 import sys
-from pathlib import Path
 
 from csv2ofx.main import run as csv2ofx_run  # type: ignore[import-untyped]
 
 
-def get_default_downloads_dir():
-    """Get the default Downloads directory in an OS-agnostic way."""
-    # Try to get the user's Downloads directory
-    # Works on Windows, macOS, and Linux
-    home = Path.home()
-    downloads = home / "Downloads"
-
-    # On Windows, also check for localized Downloads folder
-    if sys.platform == "win32":
-        import winreg
-
-        try:
-            # Try to get the Downloads folder from Windows registry
-            key = winreg.OpenKey(
-                winreg.HKEY_CURRENT_USER,
-                r"Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders",
-            )
-            downloads_path = winreg.QueryValueEx(
-                key, "{374DE290-123F-4565-9164-39C4925E467B}"
-            )[0]
-            winreg.CloseKey(key)
-            return downloads_path
-        except Exception:
-            pass
-
-    # Default to ~/Downloads if it exists, otherwise use home directory
-    return str(downloads) if downloads.exists() else str(home)
-
-
-def find_csv_files(search_dir: str | None = None) -> list[str]:
-    """Find CSV files that match the pattern in the specified directory or default Downloads."""
-    if search_dir:
-        search_path = os.path.expanduser(search_dir)
-    else:
-        search_path = get_default_downloads_dir()
+def find_csv_files(search_dir: str) -> list[str]:
+    """Find CSV files that match the pattern in the specified directory."""
+    search_path = os.path.expanduser(search_dir)
 
     # Pattern: numbers followed by "Details" optionally followed by number in parentheses, with .csv extension
     pattern = re.compile(r"^\d+\s*Details(\(\d+\))?.csv$")
@@ -147,26 +114,24 @@ def convert_csv_files(files: list[str], keep_csv: bool = False):
 
 def main():
     """Main entry point for the eqdownload converter."""
-    default_dir = get_default_downloads_dir()
-
     parser = argparse.ArgumentParser(
         description="Convert EQ Bank CSV files to OFX format"
+    )
+    parser.add_argument(
+        "directory",
+        type=str,
+        help="Directory to search for CSV files",
     )
     parser.add_argument(
         "--keep",
         action="store_true",
         help="Keep CSV files after conversion (by default, CSV files are deleted)",
     )
-    parser.add_argument(
-        "--dir",
-        type=str,
-        help=f"Directory to search for CSV files (default: {default_dir})",
-    )
     args = parser.parse_args()
 
-    matching_files = find_csv_files(args.dir)
+    matching_files = find_csv_files(args.directory)
 
-    search_dir = args.dir if args.dir else default_dir
+    search_dir = args.directory
     if matching_files:
         print(f"Found {len(matching_files)} EQ Bank transaction files in {search_dir}:")
         for file_path in matching_files:
